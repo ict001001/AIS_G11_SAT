@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grade 12 Math — Semester 1 Journey</title>
+
+<!-- Preconnect to external font origins -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;600;700&family=Public+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --navy:#101A33;
+    --navy-deep:#0A1226;
+    --paper:#FBF7EE;
+    --paper-dim:#F1EAD9;
+    --ink:#1B2438;
+    --slate:#5B6B8C;
+    --gold:#E3A94D;
+    --coral:#D9694F;   
+    --teal:#4FA69A;    
+    --violet:#8B6FC9;  
+    --crimson:#B23A48; 
+    --grey:#8A93A6;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--navy);
+    color:var(--paper);
+    font-family:'Public Sans', sans-serif;
+    line-height:1.5;
+  }
+  h1,h2,h3,.display{font-family:'Fraunces', serif;}
+  .mono{font-family:'JetBrains Mono', monospace;}
+  a{color:inherit;}
+
+  .sticky-header {
+    position: sticky;
+    top: 0;
+    background-color: #333;
+    color: white;
+    padding: 20px;
+    z-index: 1000;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    padding:64px 6vw 24px;
+    background:radial-gradient(ellipse at top left, #17244A 0%, var(--navy) 55%);
+    border-bottom:1px solid rgba(255,255,255,0.08);
+  }
+  .eyebrow{
+    font-family:'JetBrains Mono', monospace;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    font-size:12.5px;
+    color:var(--gold);
+    margin-bottom:14px;
+  }
+  .hero h1{
+    font-size:clamp(32px,5vw,56px);
+    font-weight:700;
+    margin:0 0 14px;
+    max-width:14ch;
+    color:#fff;
+  }
+  .hero p{
+    max-width:60ch;
+    color:#C7CEDE;
+    font-size:17px;
+    margin:0 0 8px;
+  }
+  .hero .sub-note{
+    font-size:14px;
+    color:var(--grey);
+  }
+
+  /* ---------- CURVE NAV ---------- */
+  .curve-section{
+    padding:8px 4vw 40px;
+    background:var(--navy);
+    overflow-x:auto;
+  }
+  .curve-caption{
+    font-size:13px;
+    color:var(--grey);
+    padding:0 2vw 6px;
+    max-width:70ch;
+  }
+  .curve-svg-wrap{
+    min-width:1400px;
+    position:relative;
+  }
+  .curve-svg-wrap svg{width:100%;height:auto;display:block;}
+  .node{cursor:pointer;}
+  .node circle{transition:r .15s ease, filter .15s ease;}
+  .node:hover circle{filter:brightness(1.3);}
+  .node text{
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    fill:#8892A8;
+  }
+  .node.active circle{stroke:#fff;stroke-width:2px;}
+
+  /* ---------- ASSESSMENT SUMMARY ---------- */
+  .assess-section{
+    padding:48px 6vw 24px;
+    background:var(--paper);
+    color:var(--ink);
+  }
+  .assess-section h2{font-size:26px;margin:0 0 6px;}
+  .assess-section > p{color:var(--slate);max-width:60ch;margin:0 0 28px;font-size:15px;}
+  .assess-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+    gap:16px;
+  }
+  .assess-card{
+    background:var(--paper-dim);
+    border-radius:10px;
+    padding:20px;
+    border-left:5px solid var(--gold);
+  }
+  .assess-card.midterm{border-left-color:var(--coral);}
+  .assess-card.pba{border-left-color:var(--violet);}
+  .assess-card.quiz{border-left-color:var(--teal);}
+  .assess-card.final{border-left-color:var(--crimson);}
+  .assess-card .label{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:.08em;
+    color:var(--slate);
+  }
+  .assess-card h3{margin:6px 0 8px;font-size:20px;}
+  .assess-card p.desc{margin:8px 0 0;font-size:14px;color:var(--slate);}
+
+  /* ---------- FILTERS ---------- */
+  .filter-bar{
+    padding:20px 6vw 0;
+    background:var(--paper);
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  .filter-btn{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12.5px;
+    border:1px solid #D8CFB9;
+    background:#fff;
+    color:var(--ink);
+    padding:8px 14px;
+    border-radius:999px;
+    cursor:pointer;
+    transition:all .15s ease;
+  }
+  .filter-btn:hover{border-color:var(--ink);}
+  .filter-btn.active{
+    background:var(--ink);
+    color:var(--paper);
+    border-color:var(--ink);
+  }
+
+  /* ---------- TIMELINE ---------- */
+  .timeline-section{
+    background:var(--paper);
+    padding:24px 6vw 64px;
+  }
+  .week-card{
+    background:#fff;
+    border:1px solid #EAE2CC;
+    border-radius:10px;
+    margin-bottom:12px;
+    overflow:hidden;
+    transition:box-shadow .15s ease;
+  }
+  .week-card.hidden{display:none;}
+  .week-card summary{
+    list-style:none;
+    cursor:pointer;
+    padding:16px 20px;
+    display:flex;
+    align-items:center;
+    gap:16px;
+  }
+  .week-card summary::-webkit-details-marker{display:none;}
+  .week-num{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+    color:#fff;
+    background:var(--ink);
+    border-radius:6px;
+    padding:4px 8px;
+    min-width:44px;
+    text-align:center;
+    flex-shrink:0;
+  }
+  .week-meta{flex:1;min-width:0;}
+  .week-date{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11.5px;
+    color:var(--slate);
+    text-transform:uppercase;
+    letter-spacing:.05em;
+  }
+  .week-title{
+    font-size:17px;
+    font-weight:600;
+    color:var(--ink);
+    font-family:'Fraunces',serif;
+  }
+  .week-unit{font-size:12.5px;color:var(--slate);}
+  .badge{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+    font-weight:600;
+    padding:4px 10px;
+    border-radius:999px;
+    color:#fff;
+    white-space:nowrap;
+    flex-shrink:0;
+  }
+  .badge.midterm{background:var(--coral);}
+  .badge.pba{background:var(--violet);}
+  .badge.quiz{background:var(--teal);}
+  .badge.final{background:var(--crimson);}
+  .badge.break{background:var(--grey);}
+  .badge.revision{background:var(--gold);color:var(--ink);}
+  .chev{color:var(--slate);transition:transform .15s ease;flex-shrink:0;}
+  details[open] .chev{transform:rotate(90deg);}
+  .week-body{
+    padding:4px 20px 24px 80px;
+    border-top:1px solid #F1EAD9;
+  }
+  .week-body ul{
+    margin:16px 0 0;
+    padding-left:20px;
+    color:var(--ink);
+    font-size:16px;
+    line-height:1.6;
+  }
+  .week-body ul li{margin-bottom:2px;}
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    background:var(--navy-deep);
+    color:var(--grey);
+    padding:32px 6vw;
+    font-size:13px;
+  }
+  footer strong{color:var(--paper);}
+
+  @media (max-width:640px){
+    .week-body{padding-left:20px;}
+    .week-num{display:none;}
+  }
+</style>
+
+<!-- Third party analytics scripts loaded asynchronously -->
+</head>
+<body>
+
+<div class="sticky-header">
+    <center>
+      <h2>
+        <a href="#" class="logo">Grade11-SAT</a> · 
+        <a href="G11-English.html">English</a> - 
+        <a href="G11-Biology.htm"  >Biology</a> -
+        <a href="G11-Chemistry.htm" style="color: yellow;">Chemistry</a> -
+        <a href="G11-Physics.htm">Physics</a> -
+        <a href="G11-Math.html"  > Math</a> - 
+        <a href="index.html"  >Arabic</a>
+      </h2>
+
+
+
+    </center>    
+</div>
+
+
+<header class="hero">
+  <div class="eyebrow">Grade 11 · Chemistry · Semester 1 · 2026–2027</div>
+  <h1>Mapping the molecular journey of Grade 11 Chemistry.</h1>
+  <p>Every week students explore how matter interacts — from balancing chemical equations and mastering mole conversions to stoichiometry and gas dynamics. Colored markers highlight key check-ins, holidays, and review periods across the term.</p>
+  <p class="sub-note">Tap any point on the curve — or any week below — to view specific details.</p>
+</header>
+
+<section class="curve-section">
+  <div class="curve-caption">The semester timeline — click a node to jump directly to that week.</div>
+  <div class="curve-svg-wrap">
+    <svg id="curveSvg" viewBox="0 0 1400 190" xmlns="http://www.w3.org/2000/svg"><path d="M 40 62.8 L 109.47368421052632 79.03296511028299 L 178.94736842105263 92.74299482823868 L 248.42105263157893 101.79926961656768 L 317.89473684210526 104.7942588096837 L 387.36842105263156 101.26247971951241 L 456.84210526315786 91.75284318297979 L 526.3157894736842 77.7433415707457 L 595.7894736842105 61.41133848867308 L 665.2631578947368 45.29516185919782 L 734.7368421052631 31.899595751728487 L 804.2105263157895 23.306585615121232 L 873.6842105263157 20.851661295771198 L 943.1578947368421 24.91636833441571 L 1012.6315789473683 34.86896797121836 L 1082.1052631578948 49.16262229340329 L 1151.578947368421 65.57580454167933 L 1221.0526315789473 81.55756988781785 L 1290.5263157894735 94.62402452993405 L 1360 102.74437368439645" fill="none" stroke="#2A3B66" stroke-width="2.5"></path>
+      <g class="node" data-week="1" transform="translate(40,62.8)">
+        <circle r="5" fill="#E3A94D"></circle>
+        <text x="0" y="24" text-anchor="middle">W1</text>
+      </g>
+      <g class="node" data-week="2" transform="translate(109.47368421052632,79.03296511028299)">
+        <circle r="5" fill="#E3A94D"></circle>
+        <text x="0" y="24" text-anchor="middle">W2</text>
+      </g>
+      <g class="node" data-week="3" transform="translate(178.94736842105263,92.74299482823868)">
+        <circle r="5" fill="#E3A94D"></circle>
+        <text x="0" y="24" text-anchor="middle">W3</text>
+      </g>
+      <g class="node" data-week="4" transform="translate(248.42105263157893,101.79926961656768)">
+        <circle r="5" fill="#E3A94D"></circle>
+        <text x="0" y="-16" text-anchor="middle">W4</text>
+      </g>
+      <g class="node" data-week="5" transform="translate(317.89473684210526,104.7942588096837)">
+        <circle r="6" fill="#4A5578" stroke="#4A5578" stroke-dasharray="2,2" fill-opacity="0.3"></circle>
+        <text x="0" y="-16" text-anchor="middle">W5</text>
+      </g>
+      <g class="node" data-week="6" transform="translate(387.36842105263156,101.26247971951241)">
+        <circle r="5" fill="#E3A94D"></circle>
+        <text x="0" y="-16" text-anchor="middle">W6</text>
+      </g>
+      <g class="node" data-week="7" transform="translate(456.84210526315786,91.75284318297979)">
+        <circle r="5" fill="#E3A94D"></circle>
+        <text x="0" y="24" text-anchor="middle">W7</text>
+      </g>
+      <g class="node" data-week="8" transform="translate(526.3157894736842,77.7433415707457)">
+        <circle r="5" fill="#E3A94D"></circle>
+        <text x="0" y="24" text-anchor="middle">W8</text>
+      </g>
+      <g class="node" data-week="9" transform="translate(595.7894736842105,61.41133848867308)">
+        <circle r="5" fill="#E3A94D"></circle>
+        <text x="0" y="24" text-anchor="middle">W9</text>
+      </g>
+      <g class="node" data-week="10" transform="translate(665.2631578947368,45.29516185919782)">
+        <circle r="5" fill="#E3A94D"></circle>
+        <text x="0" y="24" text-anchor="middle">W10</text>
+      </g>
+      <g class="node" data-week="11" transform="translate(734.7368421052631,31.899595751728487)">
+        <circle r="5" fill="#E3A94D"></circle>
+        <text x="0" y="24" text-anchor="middle">W11</text>
+      </g>
+      <g class="node" data-week="12" transform="translate(804.2105263157895,23.306585615121232)">
+        <circle r="5" fill="#E3A94D"></circle>
+        <text x="0" y="24" text-anchor="middle">W12</text>
+      </g>
+      <g class="node" data-week="13" transform="translate(873.6842105263157,20.851661295771198)">
+        <circle r="5" fill="#E3A94D"></circle>
+        <text x="0" y="24" text-anchor="middle">W13</text>
+      </g>
+      <g class="node" data-week="14" transform="translate(943.1578947368421,24.91636833441571)">
+        <circle r="6" fill="#4A5578" stroke="#4A5578" stroke-dasharray="2,2" fill-opacity="0.3"></circle>
+        <text x="0" y="24" text-anchor="middle">W14</text>
+      </g>
+      <g class="node" data-week="15" transform="translate(1012.6315789473683,34.86896797121836)">
+        <circle r="5" fill="#E3A94D"></circle>
+        <text x="0" y="24" text-anchor="middle">W15</text>
+      </g>
+      <g class="node" data-week="16" transform="translate(1082.1052631578948,49.16262229340329)">
+        <circle r="5" fill="#E3A94D"></circle>
+        <text x="0" y="24" text-anchor="middle">W16</text>
+      </g>
+      <g class="node" data-week="17" transform="translate(1151.578947368421,65.57580454167933)">
+        <circle r="5" fill="#E3A94D"></circle>
+        <text x="0" y="24" text-anchor="middle">W17</text>
+      </g>
+      <g class="node" data-week="18" transform="translate(1221.0526315789473,81.55756988781785)">
+        <circle r="9" fill="#E3A94D"></circle>
+        <text x="0" y="24" text-anchor="middle">W18</text>
+      </g>
+      <g class="node" data-week="19" transform="translate(1290.5263157894735,94.62402452993405)">
+        <circle r="9" fill="#B23A48"></circle>
+        <text x="0" y="24" text-anchor="middle">W19</text>
+      </g>
+      <g class="node" data-week="20" transform="translate(1360,102.74437368439645)">
+        <circle r="9" fill="#B23A48"></circle>
+        <text x="0" y="-16" text-anchor="middle">W20</text>
+      </g>
+    <g>
+      <line x1="123.36842105263158" y1="55.774971053874125" x2="123.36842105263158" y2="81.77497105387413" stroke="#E3A94D" stroke-width="1.5" stroke-dasharray="3,2"></line>
+      <text class="today-flag" x="123.36842105263158" y="47.774971053874125" text-anchor="middle">◆ TODAY</text>
+    </g></svg>
+  </div>
+</section>
+
+<section class="assess-section">
+  <h2>Key Milestones &amp; Checkpoints</h2>
+  <p>Major checkpoints and review periods guiding student progression throughout the term.</p>
+  <div class="assess-grid">
+    <div class="assess-card midterm">
+      <div class="label">Break</div>
+      <h3>Saudi National Day</h3>
+      <div class="weeks midterm-c">Week 5 · Sep 20–24</div>
+      <p class="desc">National holiday observance and short academic pause.</p>
+    </div>
+    <div class="assess-card pba">
+      <div class="label">Break</div>
+      <h3>Autumn Break</h3>
+      <div class="weeks pba-c">Week 14 · Nov 22–26</div>
+      <p class="desc">Mid-semester recess before concluding Module 11.</p>
+    </div>
+    <div class="assess-card revision">
+      <div class="label">Checkpoint</div>
+      <h3>Revision Week</h3>
+      <div class="weeks" style="color:var(--gold)">Week 18 · Dec 20</div>
+      <p class="desc">Comprehensive review of chemical equations, moles, stoichiometry, and states of matter.</p>
+    </div>
+    <div class="assess-card final">
+      <div class="label">Checkpoint</div>
+      <h3>Semester 1 Exams</h3>
+      <div class="weeks final-c">Weeks 19–20 · Dec 27–Jan 3+</div>
+      <p class="desc">Cumulative examination covering Modules 8 through 11.</p>
+    </div>
+  </div>
+</section>
+
+<div class="filter-bar" id="filterBar"><button class="filter-btn active" data-key="all">All Weeks</button><button class="filter-btn " data-key="assessments">Assessments Only</button><button class="filter-btn " data-key="Module 8">Module 8 · Reactions</button><button class="filter-btn " data-key="Module 9">Module 9 · The Mole</button><button class="filter-btn " data-key="Module 10">Module 10 · Stoichiometry</button><button class="filter-btn " data-key="Module 11">Module 11 · States of Matter</button></div>
+
+<section class="timeline-section">
+  <div id="timeline">
+    <details class="week-card " data-week="1" data-unit="Module 8">
+      <summary>
+        <div class="week-num mono">W1</div>
+        <div class="week-meta">
+          <div class="week-date">Aug 23</div>
+          <div class="week-title">Reactions &amp; Equations</div>
+          <div class="week-unit">Module 8 · Chemical Reactions</div>
+        </div>
+        
+        <div class="chev">▶</div>
+      </summary>
+      <div class="week-body">
+        <ul><li>Lesson 1: Reactions and Equations</li><li>Writing balanced chemical equations and identifying reactants and products</li></ul>
+        <p class="why">Balancing chemical equations forms the foundation for all quantitative chemistry.</p>
+      </div>
+    </details>
+    <details class="week-card " data-week="2" data-unit="Module 8">
+      <summary>
+        <div class="week-num mono">W2</div>
+        <div class="week-meta">
+          <div class="week-date">Aug 30</div>
+          <div class="week-title">Classifying Chemical Reactions</div>
+          <div class="week-unit">Module 8 · Chemical Reactions</div>
+        </div>
+        
+        <div class="chev">▶</div>
+      </summary>
+      <div class="week-body">
+        <ul><li>Lesson 2: Classifying Chemical Reactions</li><li>Synthesis, combustion, decomposition, and replacement reactions</li></ul>
+        <p class="why">Recognizing reaction patterns helps predict reaction products accurately.</p>
+      </div>
+    </details>
+    <details class="week-card " data-week="3" data-unit="Module 8">
+      <summary>
+        <div class="week-num mono">W3</div>
+        <div class="week-meta">
+          <div class="week-date">Sep 6</div>
+          <div class="week-title">Aqueous Solutions &amp; Reaction Types</div>
+          <div class="week-unit">Module 8 · Chemical Reactions</div>
+        </div>
+        
+        <div class="chev">▶</div>
+      </summary>
+      <div class="week-body">
+        <ul><li>Lesson 2: Classifying Chemical Reactions [cont.]</li><li>Lesson 3: Reactions in Aqueous Solutions</li></ul>
+        <p class="why">Most laboratory chemistry occurs in aqueous environments.</p>
+      </div>
+    </details>
+    <details class="week-card " data-week="4" data-unit="Module 9">
+      <summary>
+        <div class="week-num mono">W4</div>
+        <div class="week-meta">
+          <div class="week-date">Sep 13</div>
+          <div class="week-title">Measuring Matter &amp; Mass</div>
+          <div class="week-unit">Module 9 · The Mole</div>
+        </div>
+        
+        <div class="chev">▶</div>
+      </summary>
+      <div class="week-body">
+        <ul><li>Lesson 1: Measuring Matter</li><li>Lesson 2: Mass and the Mole</li></ul>
+        <p class="why">The mole bridges the atomic scale with measurable laboratory masses.</p>
+      </div>
+    </details>
+    <details class="week-card " data-week="5" data-unit="Break">
+      <summary>
+        <div class="week-num mono">W5</div>
+        <div class="week-meta">
+          <div class="week-date">Sep 20–24</div>
+          <div class="week-title">National Vacation &amp; Mass and the Mole</div>
+          <div class="week-unit">Break · Saudi National Day</div>
+        </div>
+        <span class="badge break">Break</span>
+        <div class="chev">▶</div>
+      </summary>
+      <div class="week-body">
+        <ul><li>Saudi National Day (Sep 23 &amp; 24)</li><li>Lesson 2: Mass and the Mole [cont.]</li></ul>
+        <p class="why">A short break alongside essential mole-to-mass conversion practice.</p>
+      </div>
+    </details>
+    <details class="week-card " data-week="6" data-unit="Module 9">
+      <summary>
+        <div class="week-num mono">W6</div>
+        <div class="week-meta">
+          <div class="week-date">Sep 27</div>
+          <div class="week-title">Moles of Compounds</div>
+          <div class="week-unit">Module 9 · The Mole</div>
+        </div>
+        
+        <div class="chev">▶</div>
+      </summary>
+      <div class="week-body">
+        <ul><li>Lesson 3: Moles of Compounds</li><li>Calculating molar mass of complex chemical compounds</li></ul>
+        <p class="why">Understanding chemical formulas at the molar level.</p>
+      </div>
+    </details>
+    <details class="week-card " data-week="7" data-unit="Module 9">
+      <summary>
+        <div class="week-num mono">W7</div>
+        <div class="week-meta">
+          <div class="week-date">Oct 4</div>
+          <div class="week-title">Moles of Compounds [cont.]</div>
+          <div class="week-unit">Module 9 · The Mole</div>
+        </div>
+        
+        <div class="chev">▶</div>
+      </summary>
+      <div class="week-body">
+        <ul><li>Lesson 3: Moles of Compounds [cont.]</li><li>Converting between mass, moles, and particles for compounds</li></ul>
+        <p class="why">Mastering multi-step mole conversions.</p>
+      </div>
+    </details>
+    <details class="week-card " data-week="8" data-unit="Module 9">
+      <summary>
+        <div class="week-num mono">W8</div>
+        <div class="week-meta">
+          <div class="week-date">Oct 11</div>
+          <div class="week-title">Empirical &amp; Molecular Formulas</div>
+          <div class="week-unit">Module 9 · The Mole</div>
+        </div>
+        
+        <div class="chev">▶</div>
+      </summary>
+      <div class="week-body">
+        <ul><li>Lesson 4: Empirical and Molecular Formulas</li><li>Determining percent composition and formulas from experimental data</li></ul>
+        <p class="why">Core analytical skill used to identify unknown chemical substances.</p>
+      </div>
+    </details>
+    <details class="week-card " data-week="9" data-unit="Module 10">
+      <summary>
+        <div class="week-num mono">W9</div>
+        <div class="week-meta">
+          <div class="week-date">Oct 18</div>
+          <div class="week-title">Defining Stoichiometry</div>
+          <div class="week-unit">Module 10 · Stoichiometry</div>
+        </div>
+        
+        <div class="chev">▶</div>
+      </summary>
+      <div class="week-body">
+        <ul><li>Lesson 1: Defining Stoichiometry</li><li>Lesson 2: Stoichiometric Calculations</li></ul>
+        <p class="why">Connecting mole ratios to quantitative chemical transformations.</p>
+      </div>
+    </details>
+    <details class="week-card " data-week="10" data-unit="Module 10">
+      <summary>
+        <div class="week-num mono">W10</div>
+        <div class="week-meta">
+          <div class="week-date">Oct 25</div>
+          <div class="week-title">Stoichiometric Calculations</div>
+          <div class="week-unit">Module 10 · Stoichiometry</div>
+        </div>
+        
+        <div class="chev">▶</div>
+      </summary>
+      <div class="week-body">
+        <ul><li>Lesson 2: Stoichiometric Calculations [cont.]</li><li>Mass-to-mass and mole-to-mass conversions</li></ul>
+        <p class="why">Essential calculations for predicting reaction yields.</p>
+      </div>
+    </details>
+    <details class="week-card " data-week="11" data-unit="Module 10">
+      <summary>
+        <div class="week-num mono">W11</div>
+        <div class="week-meta">
+          <div class="week-date">Nov 1</div>
+          <div class="week-title">Limiting Reactants</div>
+          <div class="week-unit">Module 10 · Stoichiometry</div>
+        </div>
+        
+        <div class="chev">▶</div>
+      </summary>
+      <div class="week-body">
+        <ul><li>Lesson 3: Limiting Reactants</li><li>Identifying excess and limiting reagents in chemical reactions</li></ul>
+        <p class="why">Real-world chemical reactions are limited by the available reagents.</p>
+      </div>
+    </details>
+    <details class="week-card " data-week="12" data-unit="Module 10">
+      <summary>
+        <div class="week-num mono">W12</div>
+        <div class="week-meta">
+          <div class="week-date">Nov 8</div>
+          <div class="week-title">Percent Yield</div>
+          <div class="week-unit">Module 10 · Stoichiometry</div>
+        </div>
+        
+        <div class="chev">▶</div>
+      </summary>
+      <div class="week-body">
+        <ul><li>Lesson 4: Percent Yield</li><li>Comparing theoretical yield to experimental yield</li></ul>
+        <p class="why">Evaluates efficiency in real-world chemical production.</p>
+      </div>
+    </details>
+    <details class="week-card " data-week="13" data-unit="Module 11">
+      <summary>
+        <div class="week-num mono">W13</div>
+        <div class="week-meta">
+          <div class="week-date">Nov 15</div>
+          <div class="week-title">Gases &amp; Kinetic-Molecular Theory</div>
+          <div class="week-unit">Module 11 · States of Matter</div>
+        </div>
+        
+        <div class="chev">▶</div>
+      </summary>
+      <div class="week-body">
+        <ul><li>Lesson 1: Gases</li><li>Gas laws, pressure, and gas behavior</li></ul>
+        <p class="why">Explains kinetic behavior of particles in gaseous states.</p>
+      </div>
+    </details>
+    <details class="week-card " data-week="14" data-unit="Break">
+      <summary>
+        <div class="week-num mono">W14</div>
+        <div class="week-meta">
+          <div class="week-date">Nov 22–26</div>
+          <div class="week-title">Autumn Break</div>
+          <div class="week-unit">Break · Autumn Break</div>
+        </div>
+        <span class="badge break">Break</span>
+        <div class="chev">▶</div>
+      </summary>
+      <div class="week-body">
+        <ul><li>No classes scheduled</li></ul>
+        <p class="why">A scheduled mid-semester rest period.</p>
+      </div>
+    </details>
+    <details class="week-card " data-week="15" data-unit="Module 11">
+      <summary>
+        <div class="week-num mono">W15</div>
+        <div class="week-meta">
+          <div class="week-date">Nov 29</div>
+          <div class="week-title">Forces of Attraction</div>
+          <div class="week-unit">Module 11 · States of Matter</div>
+        </div>
+        
+        <div class="chev">▶</div>
+      </summary>
+      <div class="week-body">
+        <ul><li>Lesson 2: Forces of Attraction</li><li>Intermolecular vs. intramolecular forces</li></ul>
+        <p class="why">Explains physical properties such as boiling points and viscosity.</p>
+      </div>
+    </details>
+    <details class="week-card " data-week="16" data-unit="Module 11">
+      <summary>
+        <div class="week-num mono">W16</div>
+        <div class="week-meta">
+          <div class="week-date">Dec 6</div>
+          <div class="week-title">Liquids &amp; Solids</div>
+          <div class="week-unit">Module 11 · States of Matter</div>
+        </div>
+        
+        <div class="chev">▶</div>
+      </summary>
+      <div class="week-body">
+        <ul><li>Lesson 3: Liquids and Solids</li><li>Structure and properties of condensed phases of matter</li></ul>
+        <p class="why">Contrasts fluid properties with crystalline and amorphous solids.</p>
+      </div>
+    </details>
+    <details class="week-card " data-week="17" data-unit="Module 11">
+      <summary>
+        <div class="week-num mono">W17</div>
+        <div class="week-meta">
+          <div class="week-date">Dec 13</div>
+          <div class="week-title">Phase Changes</div>
+          <div class="week-unit">Module 11 · States of Matter</div>
+        </div>
+        
+        <div class="chev">▶</div>
+      </summary>
+      <div class="week-body">
+        <ul><li>Lesson 4: Phase Changes</li><li>Phase diagrams and energy changes during state transitions</li></ul>
+        <p class="why">Describes thermal transitions between states of matter.</p>
+      </div>
+    </details>
+    <details class="week-card " data-week="18" data-unit="Revision">
+      <summary>
+        <div class="week-num mono">W18</div>
+        <div class="week-meta">
+          <div class="week-date">Dec 20</div>
+          <div class="week-title">Revision Week</div>
+          <div class="week-unit">Revision</div>
+        </div>
+        <span class="badge revision">Revision</span>
+        <div class="chev">▶</div>
+      </summary>
+      <div class="week-body">
+        <ul><li>Comprehensive review across Modules 8–11</li><li>Practice problem sets and review session</li></ul>
+        <p class="why">Consolidates concepts ahead of final examinations.</p>
+      </div>
+    </details>
+    <details class="week-card " data-week="19" data-unit="Final">
+      <summary>
+        <div class="week-num mono">W19</div>
+        <div class="week-meta">
+          <div class="week-date">Dec 27</div>
+          <div class="week-title">Semester 1 Exams Begin</div>
+          <div class="week-unit">Final Exams</div>
+        </div>
+        <span class="badge final">Final Exam</span>
+        <div class="chev">▶</div>
+      </summary>
+      <div class="week-body">
+        <ul><li>Semester 1 examination period starts</li></ul>
+        <p class="why">Assesses overall mastery of course material.</p>
+      </div>
+    </details>
+    <details class="week-card " data-week="20" data-unit="Final">
+      <summary>
+        <div class="week-num mono">W20</div>
+        <div class="week-meta">
+          <div class="week-date">Jan 3</div>
+          <div class="week-title">Semester 1 Exams [cont.]</div>
+          <div class="week-unit">Final Exams</div>
+        </div>
+        <span class="badge final">Final Exam</span>
+        <div class="chev">▶</div>
+      </summary>
+      <div class="week-body">
+        <ul><li>Semester 1 examination period concludes</li></ul>
+        <p class="why">Final evaluation before semester completion.</p>
+      </div>
+    </details></div>
+</section>
+
+<footer>
+  <p><strong>Module guide:</strong> Module 8 = Chemical Reactions, Module 9 = The Mole, Module 10 = Stoichiometry, Module 11 = States of Matter.</p>
+  <p style="margin-top:12px;">Have questions about the chemistry curriculum? Reach out to the Science Department anytime.</p>
+</footer>
+
+<script>
+const UNIT_COLORS = {
+  "Module 8": "#E3A94D",
+  "Module 9": "#4FA69A",
+  "Module 10": "#8B6FC9",
+  "Module 11": "#D9694F",
+  "Break": "#8A93A6",
+  "Revision": "#E3A94D",
+  "Final": "#B23A48"
+};
+
+function unitKey(unit){
+  if(unit.includes("Module 8")) return "Module 8";
+  if(unit.includes("Module 9")) return "Module 9";
+  if(unit.includes("Module 10")) return "Module 10";
+  if(unit.includes("Module 11")) return "Module 11";
+  if(unit.includes("Final")) return "Final";
+  if(unit.includes("Revision")) return "Revision";
+  if(unit.includes("Break")) return "Break";
+  return "Module 8";
+}
+
+const weeks = [
+ {n:1, date:"Aug 23", unit:"Module 8 · Chemical Reactions", title:"Reactions & Equations", topics:["Lesson 1: Reactions and Equations","Writing balanced chemical equations and identifying reactants and products"], why:"Balancing chemical equations forms the foundation for all quantitative chemistry.", assessment:null},
+ {n:2, date:"Aug 30", unit:"Module 8 · Chemical Reactions", title:"Classifying Chemical Reactions", topics:["Lesson 2: Classifying Chemical Reactions","Synthesis, combustion, decomposition, and replacement reactions"], why:"Recognizing reaction patterns helps predict reaction products accurately.", assessment:null},
+ {n:3, date:"Sep 6", unit:"Module 8 · Chemical Reactions", title:"Aqueous Solutions & Reaction Types", topics:["Lesson 2: Classifying Chemical Reactions [cont.]","Lesson 3: Reactions in Aqueous Solutions"], why:"Most laboratory chemistry occurs in aqueous environments.", assessment:null},
+ {n:4, date:"Sep 13", unit:"Module 9 · The Mole", title:"Measuring Matter & Mass", topics:["Lesson 1: Measuring Matter","Lesson 2: Mass and the Mole"], why:"The mole bridges the atomic scale with measurable laboratory masses.", assessment:null},
+ {n:5, date:"Sep 20–24", unit:"Break · Saudi National Day", title:"National Vacation & Mass and the Mole", topics:["Saudi National Day (Sep 23 & 24)","Lesson 2: Mass and the Mole [cont.]"], why:"A short break alongside essential mole-to-mass conversion practice.", assessment:{type:"break", label:"Break"}, isBreak:true},
+ {n:6, date:"Sep 27", unit:"Module 9 · The Mole", title:"Moles of Compounds", topics:["Lesson 3: Moles of Compounds","Calculating molar mass of complex chemical compounds"], why:"Understanding chemical formulas at the molar level.", assessment:null},
+ {n:7, date:"Oct 4", unit:"Module 9 · The Mole", title:"Moles of Compounds [cont.]", topics:["Lesson 3: Moles of Compounds [cont.]","Converting between mass, moles, and particles for compounds"], why:"Mastering multi-step mole conversions.", assessment:null},
+ {n:8, date:"Oct 11", unit:"Module 9 · The Mole", title:"Empirical & Molecular Formulas", topics:["Lesson 4: Empirical and Molecular Formulas","Determining percent composition and formulas from experimental data"], why:"Core analytical skill used to identify unknown chemical substances.", assessment:null},
+ {n:9, date:"Oct 18", unit:"Module 10 · Stoichiometry", title:"Defining Stoichiometry", topics:["Lesson 1: Defining Stoichiometry","Lesson 2: Stoichiometric Calculations"], why:"Connecting mole ratios to quantitative chemical transformations.", assessment:null},
+ {n:10, date:"Oct 25", unit:"Module 10 · Stoichiometry", title:"Stoichiometric Calculations", topics:["Lesson 2: Stoichiometric Calculations [cont.]","Mass-to-mass and mole-to-mass conversions"], why:"Essential calculations for predicting reaction yields.", assessment:null},
+ {n:11, date:"Nov 1", unit:"Module 10 · Stoichiometry", title:"Limiting Reactants", topics:["Lesson 3: Limiting Reactants","Identifying excess and limiting reagents in chemical reactions"], why:"Real-world chemical reactions are limited by the available reagents.", assessment:null},
+ {n:12, date:"Nov 8", unit:"Module 10 · Stoichiometry", title:"Percent Yield", topics:["Lesson 4: Percent Yield","Comparing theoretical yield to experimental yield"], why:"Evaluates efficiency in real-world chemical production.", assessment:null},
+ {n:13, date:"Nov 15", unit:"Module 11 · States of Matter", title:"Gases & Kinetic-Molecular Theory", topics:["Lesson 1: Gases","Gas laws, pressure, and gas behavior"], why:"Explains kinetic behavior of particles in gaseous states.", assessment:null},
+ {n:14, date:"Nov 22–26", unit:"Break · Autumn Break", title:"Autumn Break", topics:["No classes scheduled"], why:"A scheduled mid-semester rest period.", assessment:{type:"break", label:"Break"}, isBreak:true},
+ {n:15, date:"Nov 29", unit:"Module 11 · States of Matter", title:"Forces of Attraction", topics:["Lesson 2: Forces of Attraction","Intermolecular vs. intramolecular forces"], why:"Explains physical properties such as boiling points and viscosity.", assessment:null},
+ {n:16, date:"Dec 6", unit:"Module 11 · States of Matter", title:"Liquids & Solids", topics:["Lesson 3: Liquids and Solids","Structure and properties of condensed phases of matter"], why:"Contrasts fluid properties with crystalline and amorphous solids.", assessment:null},
+ {n:17, date:"Dec 13", unit:"Module 11 · States of Matter", title:"Phase Changes", topics:["Lesson 4: Phase Changes","Phase diagrams and energy changes during state transitions"], why:"Describes thermal transitions between states of matter.", assessment:null},
+ {n:18, date:"Dec 20", unit:"Revision", title:"Revision Week", topics:["Comprehensive review across Modules 8–11","Practice problem sets and review session"], why:"Consolidates concepts ahead of final examinations.", assessment:{type:"revision", label:"Revision"}},
+ {n:19, date:"Dec 27", unit:"Final Exams", title:"Semester 1 Exams Begin", topics:["Semester 1 examination period starts"], why:"Assesses overall mastery of course material.", assessment:{type:"final", label:"Final Exam"}},
+ {n:20, date:"Jan 3", unit:"Final Exams", title:"Semester 1 Exams [cont.]", topics:["Semester 1 examination period concludes"], why:"Final evaluation before semester completion.", assessment:{type:"final", label:"Final Exam"}}
+];
+
+function badgeHtml(a){
+  if(!a) return "";
+  return `<span class="badge ${a.type}">${a.label}</span>`;
+}
+
+function renderTimeline(filter){
+  const el = document.getElementById('timeline');
+  el.innerHTML = weeks.map(w=>{
+    const uk = unitKey(w.unit);
+    const show = filter==='all' ? true :
+      (filter==='assessments' ? !!(w.assessment && w.assessment.type!=='break') : uk===filter);
+    return `
+    <details class="week-card ${show?'':'hidden'}" data-week="${w.n}" data-unit="${uk}">
+      <summary>
+        <div class="week-num mono">W${w.n}</div>
+        <div class="week-meta">
+          <div class="week-date">${w.date}</div>
+          <div class="week-title">${w.title}</div>
+          <div class="week-unit">${w.unit}</div>
+        </div>
+        ${badgeHtml(w.assessment)}
+        <div class="chev">▶</div>
+      </summary>
+      <div class="week-body">
+        <ul>${w.topics.map(t=>`<li>${t}</li>`).join('')}</ul>
+        <p class="why">${w.why}</p>
+      </div>
+    </details>`;
+  }).join('');
+}
+
+function renderFilters(){
+  const bar = document.getElementById('filterBar');
+  const options = [
+    {key:'all', label:'All Weeks'},
+    {key:'assessments', label:'Assessments Only'},
+    {key:'Module 8', label:'Module 8 · Reactions'},
+    {key:'Module 9', label:'Module 9 · The Mole'},
+    {key:'Module 10', label:'Module 10 · Stoichiometry'},
+    {key:'Module 11', label:'Module 11 · States of Matter'}
+  ];
+  bar.innerHTML = options.map((o,i)=>`<button class="filter-btn ${i===0?'active':''}" data-key="${o.key}">${o.label}</button>`).join('');
+  bar.querySelectorAll('.filter-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      bar.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      renderTimeline(btn.dataset.key);
+    });
+  });
+}
+
+function assessColor(a){
+  if(!a) return "#E3A94D";
+  if(a.type==='midterm') return "#D9694F";
+  if(a.type==='pba') return "#8B6FC9";
+  if(a.type==='quiz') return "#4FA69A";
+  if(a.type==='final') return "#B23A48";
+  if(a.type==='revision') return "#E3A94D";
+  if(a.type==='break') return "#8A93A6";
+  return "#E3A94D";
+}
+
+function buildCurve(){
+  const svg = document.getElementById('curveSvg');
+  const n = weeks.length;
+  const w = 1400, h = 190;
+  const marginX = 40, marginY = 46;
+  const amp = 42;
+  let pathD = "";
+  const pts = [];
+  for(let i=0;i<n;i++){
+    const x = marginX + (i/(n-1)) * (w - marginX*2);
+    const y = marginY + amp * Math.sin((i/(n-1)) * Math.PI * 2.4) + amp*0.4;
+    pts.push({x,y});
+    pathD += (i===0?`M ${x} ${y}`:` L ${x} ${y}`);
+  }
+  let svgContent = `<path d="${pathD}" fill="none" stroke="#2A3B66" stroke-width="2.5"/>`;
+
+  weeks.forEach((wk,i)=>{
+    const {x,y} = pts[i];
+    const isBreak = wk.isBreak;
+    const color = isBreak ? "#4A5578" : assessColor(wk.assessment);
+    const r = (wk.assessment && !isBreak) ? 9 : (isBreak ? 6 : 5);
+    svgContent += `
+      <g class="node" data-week="${wk.n}" transform="translate(${x},${y})">
+        <circle r="${r}" fill="${color}" ${isBreak ? 'stroke="#4A5578" stroke-dasharray="2,2" fill-opacity="0.3"' : ''}/>
+        <text x="0" y="${(y > 95 ? -16 : 24)}" text-anchor="middle">W${wk.n}</text>
+      </g>`;
+  });
+
+  const todayX = pts[1].x + (pts[2].x - pts[1].x) * 0.2;
+  const todayY = pts[1].y + (pts[2].y - pts[1].y) * 0.2 - 34;
+  svgContent += `
+    <g>
+      <line x1="${todayX}" y1="${todayY+8}" x2="${todayX}" y2="${todayY+34}" stroke="#E3A94D" stroke-width="1.5" stroke-dasharray="3,2"/>
+      <text class="today-flag" x="${todayX}" y="${todayY}" text-anchor="middle">◆ TODAY</text>
+    </g>`;
+
+  svg.innerHTML = svgContent;
+
+  svg.querySelectorAll('.node').forEach(node=>{
+    node.addEventListener('click', ()=>{
+      const weekNum = node.dataset.week;
+      const filterAll = document.querySelector('.filter-btn[data-key="all"]');
+      document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+      if(filterAll) filterAll.classList.add('active');
+      renderTimeline('all');
+      const card = document.querySelector(`.week-card[data-week="${weekNum}"]`);
+      if(card){
+        card.open = true;
+        card.scrollIntoView({behavior:'smooth', block:'center'});
+        card.style.boxShadow = "0 0 0 2px #E3A94D";
+        setTimeout(()=>{ card.style.boxShadow = "none"; }, 1400);
+      }
+    });
+  });
+}
+
+renderFilters();
+renderTimeline('all');
+buildCurve();
+</script>
+
+
+</body></html>
